@@ -6,7 +6,6 @@ from rest_framework_simplejwt.token_blacklist.models import OutstandingToken, Bl
 from .serializers import MyTokenObtainPairSerializer, RegisterSerializer, ChangePasswordSerializer, UpdateUserSerializer
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework_simplejwt.views import TokenObtainPairView
-from .permissions import IsOwnerOrReadOnly
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.response import Response
@@ -31,7 +30,7 @@ class ChangePasswordView(generics.UpdateAPIView):
     def get_object(self):
         return self.request.user
 
-    permission_classes = (IsOwnerOrReadOnly, IsAuthenticated)
+    permission_classes = (IsAuthenticated,)
     serializer_class = ChangePasswordSerializer
 
 
@@ -39,7 +38,7 @@ class UpdateProfileView(generics.UpdateAPIView):
     def get_object(self):
         return self.request.user
 
-    permission_classes = (IsOwnerOrReadOnly, IsAuthenticated)
+    permission_classes = (IsAuthenticated,)
     serializer_class = UpdateUserSerializer
 
 
