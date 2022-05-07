@@ -48,6 +48,9 @@ INSTALLED_APPS = [
 
     # add malformed tokens to black list
     'rest_framework_simplejwt.token_blacklist',
+
+    # add to make user profile signal work
+    'users.apps.UsersConfig',
 ]
 
 MIDDLEWARE = [

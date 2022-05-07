@@ -6,7 +6,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 
 def user_avatar_path(instance, _):
     return 'images/avatars/user_{0}/{1}'.format(
-        instance.user.profile.uu_id,
+        instance.user.profile.pk,
         settings.AVATAR_FILENAME + settings.AVATAR_FILENAME_EXTENSION
     )
 
@@ -18,18 +18,19 @@ class UserProfile(models.Model):
         primary_key=True,
         related_name='profile',
     )
-    birth_date = models.DateTimeField()
+    birth_date = models.DateTimeField(null=True)
     MALE = 'Male'
     FEMALE = 'Female'
     ANOTHER = 'Another'
     GENDER_CHOICES = [
-        MALE,
-        FEMALE,
-        ANOTHER
+        (MALE, 'Male'),
+        (FEMALE, 'Female'),
+        (ANOTHER, 'Another')
     ]
     gender = models.CharField(max_length=7, choices=GENDER_CHOICES, default=ANOTHER)
-    phone_number = PhoneNumberField(region='UA')
-    avatar = models.ImageField(blank=True, null=True, upload_to=user_avatar_path)
+    phone_number = PhoneNumberField(region='UA', null=True)
+    avatar = models.ImageField(
+        upload_to=user_avatar_path, blank=True, null=True)
 
 
 class UserAddress(models.Model):
@@ -43,4 +44,3 @@ class UserAddress(models.Model):
     city = models.CharField(max_length=100)
     street = models.CharField(max_length=100)
     zip_code = models.IntegerField()
-
