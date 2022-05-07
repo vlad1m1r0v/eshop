@@ -13,7 +13,7 @@ class UserSerializer(serializers.ModelSerializer):
 class UserProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     avatar = serializers.ImageField(
-        allow_empty_file=True, use_url=True)
+        allow_empty_file=True, use_url=True, required=False)
 
     class Meta:
         model = UserProfile
