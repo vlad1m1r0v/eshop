@@ -11,7 +11,6 @@ class CurrentUserView(mixins.RetrieveModelMixin,
                       generics.GenericAPIView):
     def get_object(self):
         return UserProfile.objects.filter(user=self.request.user).first()
-
     permission_classes = (IsAuthenticated,)
     serializer_class = UserProfileSerializer
 

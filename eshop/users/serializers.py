@@ -7,7 +7,7 @@ from .models import UserProfile
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = '__all__'
+        fields = ('username', 'first_name', 'last_name', 'email')
 
 
 class UserProfileSerializer(serializers.ModelSerializer):
@@ -18,3 +18,33 @@ class UserProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserProfile
         fields = '__all__'
+
+    # flatten nested user
+    def to_representation(self, obj):
+        representation = super().to_representation(obj)
+        user_representation = representation.pop('user')
+        for key in user_representation:
+            representation[key] = user_representation[key]
+
+        return representation
+
+    def to_internal_value(self, data):
+        user_internal = {}
+        for key in UserSerializer.Meta.fields:
+            if key in data:
+                user_internal[key] = data.pop(key)
+
+        internal = super().to_internal_value(data)
+        internal['user'] = user_internal
+        return internal
+
+    def update(self, instance, validated_data):
+        user_data = validated_data.pop('user')
+        super().update(instance, validated_data)
+
+        user = instance.user
+        for attr, value in user_data.items():
+            setattr(user, attr, value)
+        user.save()
+
+        return instance
