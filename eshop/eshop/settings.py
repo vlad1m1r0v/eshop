@@ -136,6 +136,10 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # constants for avatars uploading
+AVATAR_SIZE = 100
+AVATAR_PIL_FORMAT = 'JPEG'
+AVATAR_QUALITY = 100
+AVATAR_FILE_FORMAT = 'image/jpeg'
 AVATAR_FILENAME_EXTENSION = '.jpg'
 AVATAR_FILENAME = 'avatar'
 

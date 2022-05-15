@@ -3,6 +3,7 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from .serializers import UserProfileSerializer
 from .models import UserProfile
+from .utils import crop_and_resize
 
 
 # Create your views here.
@@ -13,6 +14,13 @@ class CurrentUserView(mixins.RetrieveModelMixin,
         return UserProfile.objects.filter(user=self.request.user).first()
     permission_classes = (IsAuthenticated,)
     serializer_class = UserProfileSerializer
+
+    def perform_update(self, serializer):
+        if 'avatar' in serializer.validated_data:
+            image = serializer.validated_data['avatar']
+            cropped_image_file = crop_and_resize(image)
+            serializer.validated_data['avatar'] = cropped_image_file
+        serializer.save()
 
     def get(self, request, *args, **kwargs):
         return self.retrieve(request, *args, **kwargs)
