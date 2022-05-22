@@ -1,6 +1,5 @@
 from django.contrib.auth.models import User
 from rest_framework import generics
-from rest_framework.generics import get_object_or_404
 from rest_framework_simplejwt.token_blacklist.models import OutstandingToken, BlacklistedToken
 
 from .serializers import MyTokenObtainPairSerializer, RegisterSerializer, ChangePasswordSerializer, UpdateUserSerializer

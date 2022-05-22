@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
 
-from .models import UserProfile
+from .models import UserProfile, UserAddress
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -10,8 +10,21 @@ class UserSerializer(serializers.ModelSerializer):
         fields = ('username', 'first_name', 'last_name', 'email')
 
 
+class UserAddressSerializer(serializers.ModelSerializer):
+    country = serializers.CharField(required=True, max_length=15, min_length=3)
+    region = serializers.CharField(required=True, max_length=15, min_length=3)
+    city = serializers.CharField(required=True, max_length=15, min_length=3)
+    street = serializers.CharField(required=True, max_length=15, min_length=3)
+    zip_code = serializers.IntegerField(required=True)
+
+    class Meta:
+        model = UserAddress
+        exclude = ('user_profile', )
+
+
 class UserProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
+    addresses = UserAddressSerializer(many=True, read_only=True)
     avatar = serializers.ImageField(
         allow_empty_file=True, use_url=True, required=False)
 
@@ -30,6 +43,9 @@ class UserProfileSerializer(serializers.ModelSerializer):
 
     def to_internal_value(self, data):
         user_internal = {}
+
+        print(data)
+
         for key in UserSerializer.Meta.fields:
             if key in data:
                 user_internal[key] = data.pop(key)
