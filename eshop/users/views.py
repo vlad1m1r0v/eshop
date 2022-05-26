@@ -2,9 +2,10 @@ from django.shortcuts import get_object_or_404
 from rest_framework import mixins
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
+from django.conf import settings
 from .serializers import UserProfileSerializer, UserAddressSerializer
 from .models import UserProfile, UserAddress
-from .utils import crop_and_resize
+from common.utils import crop_and_resize
 
 
 # Create your views here.
@@ -20,7 +21,8 @@ class CurrentUserView(mixins.RetrieveModelMixin,
     def perform_update(self, serializer):
         if 'avatar' in serializer.validated_data:
             image = serializer.validated_data['avatar']
-            cropped_image_file = crop_and_resize(image)
+            size = {'length': settings.AVATAR_SIZE, 'width': settings.AVATAR_SIZE}
+            cropped_image_file = crop_and_resize(image=image, size=size)
             serializer.validated_data['avatar'] = cropped_image_file
         serializer.save()
 

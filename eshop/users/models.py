@@ -7,7 +7,7 @@ from phonenumber_field.modelfields import PhoneNumberField
 def user_avatar_path(instance, _):
     return 'images/avatars/user_{0}/{1}'.format(
         instance.user.profile.pk,
-        settings.AVATAR_FILENAME + settings.AVATAR_FILENAME_EXTENSION
+        settings.AVATAR_FILENAME + settings.FILENAME_EXTENSION
     )
 
 

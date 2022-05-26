@@ -14,6 +14,7 @@ from pathlib import Path
 
 # import local environment variables
 from dotenv import load_dotenv
+
 load_dotenv()
 
 # import timedelta for jwt
@@ -135,13 +136,19 @@ STATIC_URL = 'static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
+# constants for image uploading
+FILE_FORMAT = 'image/jpeg'
+FILENAME_EXTENSION = '.jpg'
+FILE_QUALITY = 100
+PIL_FORMAT = 'JPEG'
+
 # constants for avatars uploading
 AVATAR_SIZE = 100
-AVATAR_PIL_FORMAT = 'JPEG'
-AVATAR_QUALITY = 100
-AVATAR_FILE_FORMAT = 'image/jpeg'
-AVATAR_FILENAME_EXTENSION = '.jpg'
 AVATAR_FILENAME = 'avatar'
+
+# constants for category image uploading
+CATEGORY_SIZE = 100
+CATEGORY_FILENAME = 'category'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
