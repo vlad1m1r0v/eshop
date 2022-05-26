@@ -44,8 +44,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
     def to_internal_value(self, data):
         user_internal = {}
 
-        print(data)
-
         for key in UserSerializer.Meta.fields:
             if key in data:
                 user_internal[key] = data.pop(key)
