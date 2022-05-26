@@ -32,6 +32,9 @@ class UserProfile(models.Model):
     avatar = models.ImageField(
         upload_to=user_avatar_path, blank=True, null=True)
 
+    def __str__(self):
+        return f'{self.user}'
+
 
 class UserAddress(models.Model):
     user_profile = models.ForeignKey(
@@ -44,3 +47,6 @@ class UserAddress(models.Model):
     city = models.CharField(max_length=100)
     street = models.CharField(max_length=100)
     zip_code = models.IntegerField()
+
+    def __str__(self):
+        return f'{self.user_profile} | {self.country} {self.region} {self.city} {self.region} {self.street} {self.zip_code}'
