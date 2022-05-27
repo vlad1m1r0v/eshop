@@ -24,7 +24,6 @@ class UserAddressSerializer(serializers.ModelSerializer):
 
 class UserProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
-    addresses = UserAddressSerializer(many=True, read_only=True)
     avatar = serializers.ImageField(
         allow_empty_file=True, use_url=True, required=False)
 
