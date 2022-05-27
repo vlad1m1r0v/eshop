@@ -7,8 +7,8 @@ from common.utils.storage import OverwriteStorage
 
 
 def user_avatar_path(instance, _):
-    return 'images/avatars/user_{0}/{1}'.format(
-        instance.user.profile.pk,
+    return 'images/avatars/{0}/{1}'.format(
+        instance.user.username,
         settings.AVATAR_FILENAME + settings.FILENAME_EXTENSION
     )
 
@@ -20,7 +20,7 @@ class UserProfile(models.Model):
         primary_key=True,
         related_name='profile',
     )
-    birth_date = models.DateTimeField(null=True)
+    birth_date = models.DateField(null=True)
     MALE = 'Male'
     FEMALE = 'Female'
     ANOTHER = 'Another'
@@ -33,6 +33,9 @@ class UserProfile(models.Model):
     phone_number = PhoneNumberField(region='UA', null=True)
     avatar = models.ImageField(
         upload_to=user_avatar_path, storage=OverwriteStorage(), blank=True, null=True)
+
+    class Meta:
+        verbose_name_plural = 'Profiles'
 
     def save(self, *args, **kwargs):
         image = self.avatar
@@ -57,5 +60,8 @@ class UserAddress(models.Model):
     street = models.CharField(max_length=30)
     zip_code = models.IntegerField()
 
+    class Meta:
+        verbose_name_plural = 'Addresses'
+
     def __str__(self):
-        return f'{self.user_profile} | {self.country} {self.region}  {self.city} {self.street} {self.zip_code}'
+        return f'{self.country} {self.city} {self.zip_code}'

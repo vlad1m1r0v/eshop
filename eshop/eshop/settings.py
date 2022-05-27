@@ -52,6 +52,9 @@ INSTALLED_APPS = [
 
     # add to make user profile signal work
     'users.apps.UsersConfig',
+
+    # add apps
+    'categories'
 ]
 
 MIDDLEWARE = [
@@ -147,7 +150,7 @@ AVATAR_SIZE = 100
 AVATAR_FILENAME = 'avatar'
 
 # constants for category image uploading
-CATEGORY_SIZE = 100
+CATEGORY_SIZE = 200
 CATEGORY_FILENAME = 'category'
 
 # Default primary key field type
