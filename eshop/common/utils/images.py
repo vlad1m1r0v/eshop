@@ -11,9 +11,9 @@ def crop_and_resize(image, size):
     origin_width, origin_height = uploaded_image.size
     resize_width, resize_height = size['length'], size['width']
 
-    crop_width = origin_width if resize_width / resize_height >= origin_width / origin_height  \
+    crop_width = origin_width if resize_width / resize_height >= origin_width / origin_height \
         else origin_height * resize_width / resize_height
-    crop_height = origin_height if resize_width / resize_height <= origin_width / origin_height  \
+    crop_height = origin_height if resize_width / resize_height <= origin_width / origin_height \
         else origin_width * resize_height / resize_width
 
     left = (origin_width - crop_width) / 2

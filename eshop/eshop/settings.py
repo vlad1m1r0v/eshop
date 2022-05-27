@@ -151,6 +151,7 @@ AVATAR_FILENAME = 'avatar'
 
 # constants for category image uploading
 CATEGORY_SIZE = 200
+SUBCATEGORY_SIZE = 100
 CATEGORY_FILENAME = 'category'
 
 # Default primary key field type
