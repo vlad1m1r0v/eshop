@@ -7,7 +7,7 @@ from .models import Category
 
 @admin.register(Category)
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description', 'parent',)
+    list_display = ('name', 'description', 'parent', )
     readonly_fields = ('get_image',)
 
     def get_image(self, obj):

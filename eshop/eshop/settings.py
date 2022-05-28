@@ -47,6 +47,9 @@ INSTALLED_APPS = [
     # phone number validation
     'phonenumber_field',
 
+    # add custom json widget
+    'flat_json_widget',
+
     # add malformed tokens to black list
     'rest_framework_simplejwt.token_blacklist',
 
@@ -54,7 +57,8 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
 
     # add apps
-    'categories'
+    'categories',
+    'products'
 ]
 
 MIDDLEWARE = [
@@ -153,6 +157,11 @@ AVATAR_FILENAME = 'avatar'
 CATEGORY_SIZE = 200
 SUBCATEGORY_SIZE = 100
 CATEGORY_FILENAME = 'category'
+
+# constants for product image uploading
+PRODUCT_LENGTH = 750
+PRODUCT_WIDTH = 500
+PRODUCT_FILENAME = 'product'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
