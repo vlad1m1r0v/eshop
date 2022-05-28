@@ -30,7 +30,7 @@ class Product(models.Model):
 
 
 class ProductInventory(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='inventory')
+    product = models.OneToOneField(Product, on_delete=models.CASCADE, related_name='inventory')
     amount = models.IntegerField()
 
     class Meta:
@@ -41,7 +41,7 @@ class ProductInventory(models.Model):
 
 
 class ProductDiscount(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='discount')
+    product = models.OneToOneField(Product, on_delete=models.CASCADE, related_name='discount')
     description = models.CharField(max_length=100)
     percent = models.IntegerField(validators=[MinValueValidator(0), MaxValueValidator(100)])
     active = models.BooleanField(default=True)
