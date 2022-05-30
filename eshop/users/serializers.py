@@ -37,7 +37,6 @@ class UserProfileSerializer(serializers.ModelSerializer):
         user_representation = representation.pop('user')
         for key in user_representation:
             representation[key] = user_representation[key]
-
         return representation
 
     def to_internal_value(self, data):
