@@ -53,6 +53,9 @@ INSTALLED_APPS = [
     # add malformed tokens to black list
     'rest_framework_simplejwt.token_blacklist',
 
+    # add filtering library
+    'django_filters',
+
     # add to make user profile signal work
     'users.apps.UsersConfig',
 
@@ -170,9 +173,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # add rest framework settings
 REST_FRAMEWORK = {
-    # 'DEFAULT_FILTER_BACKENDS': [
-    #     'django_filters.rest_framework.DjangoFilterBackend'
-    # ],
+    # apply filtering library
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend'
+    ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],

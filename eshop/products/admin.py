@@ -8,7 +8,7 @@ from .models import Product, ProductGallery, ProductInventory, ProductDiscount
 # Register your models here.
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'SKU', 'category', 'description', 'price')
+    list_display = ('name', 'SKU', 'category', 'description', 'price', 'created_at')
 
     formfield_overrides = {
         models.JSONField: {'widget': FlatJsonWidget},

@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.conf import settings
 from django.db import models
 from django.db.models import JSONField
@@ -23,6 +25,7 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, blank=True, null=True)
     description = models.CharField(max_length=200)
     price = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
     characteristics = JSONField()
 
     def __str__(self):
@@ -50,7 +53,7 @@ class ProductDiscount(models.Model):
         verbose_name_plural = 'Discounts'
 
     def __str__(self):
-        return f'{self.product} {self.percent} {self.active}'
+        return f'for {self.product} {self.percent}%'
 
 
 class ProductGallery(models.Model):
@@ -60,9 +63,13 @@ class ProductGallery(models.Model):
     class Meta:
         verbose_name_plural = 'Gallery'
 
+    def __str__(self):
+        return f'{self.product} {self.pk}'
+
     def save(self, *args, **kwargs):
         image = self.image
         size = {'length': settings.PRODUCT_LENGTH, 'width': settings.PRODUCT_WIDTH}
         cropped_image_file = crop_and_resize(image=image, size=size)
         self.image = cropped_image_file
         super().save(*args, **kwargs)
+

@@ -37,10 +37,6 @@ class ProductSerializer(serializers.ModelSerializer):
     # flatten nested inventory amount, category name and discount percent
     def to_representation(self, obj):
         representation = super().to_representation(obj)
-        # pop from list and assign an object for its further flattening
-        list_gallery = representation.pop('gallery')
-        image_object = list_gallery[0]
-        representation['gallery'] = image_object
         flatten_representation = flatten(d=representation, exclude=('characteristics', 'discount',))
 
         return flatten_representation
@@ -57,5 +53,10 @@ class ProductsSerializer(serializers.ModelSerializer):
 
     def to_representation(self, obj):
         representation = super().to_representation(obj)
+        # pop from list and assign an object for its further flattening
+        list_gallery = representation.pop('gallery')
+        image_object = list_gallery[0]
+        representation['gallery'] = image_object
+
         flatten_representation = flatten(d=representation, exclude=('characteristics', 'discount',))
         return flatten_representation
