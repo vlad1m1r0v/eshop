@@ -38,10 +38,11 @@ class UserProfile(models.Model):
         verbose_name_plural = 'Profiles'
 
     def save(self, *args, **kwargs):
-        image = self.avatar
-        size = {'length': settings.AVATAR_SIZE, 'width': settings.AVATAR_SIZE}
-        cropped_image_file = crop_and_resize(image=image, size=size)
-        self.avatar = cropped_image_file
+        if self.avatar:
+            image = self.avatar
+            size = {'length': settings.AVATAR_SIZE, 'width': settings.AVATAR_SIZE}
+            cropped_image_file = crop_and_resize(image=image, size=size)
+            self.avatar = cropped_image_file
         super().save(*args, **kwargs)
 
     def __str__(self):

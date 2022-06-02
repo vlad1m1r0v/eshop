@@ -29,6 +29,7 @@ class ProductsView(
     serializer_class = ProductsSerializer
 
 
+
 class ProductView(generics.RetrieveAPIView):
     serializer_class = ProductSerializer
     permission_classes = (IsAuthenticated,)
