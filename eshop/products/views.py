@@ -1,4 +1,5 @@
-from django_filters import rest_framework as filters
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import OrderingFilter
 from rest_framework import generics
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated
@@ -23,11 +24,11 @@ class ProductsView(
             Prefetch('gallery', queryset=ProductGallery.objects.filter(id__in=subquery))
         ).all()
 
-    filter_backends = (filters.DjangoFilterBackend,)
+    filter_backends = (DjangoFilterBackend, OrderingFilter,)
     filterset_class = ProductFilter
     permission_classes = (IsAuthenticated,)
     serializer_class = ProductsSerializer
-
+    ordering_fields = ['price', 'created_at']
 
 
 class ProductView(generics.RetrieveAPIView):

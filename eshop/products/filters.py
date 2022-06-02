@@ -6,15 +6,15 @@ from .models import Product
 
 
 class ProductFilter(filters.FilterSet):
-    min_price = filters.NumberFilter(field_name="price", lookup_expr='gte')
-    max_price = filters.NumberFilter(field_name="price", lookup_expr='lte')
-    category = django_filters.CharFilter(method='category_filter', label="category")
+    price = filters.RangeFilter()
     name = django_filters.CharFilter(field_name="name", lookup_expr='icontains')
+    category = django_filters.CharFilter(method='category_filter', label="category")
 
     class Meta:
         model = Product
-        fields = ['category', 'min_price', 'max_price']
+        fields = ['category', 'price', 'name']
 
     def category_filter(self, queryset, name, value):
+        values = value.split(',')
         return queryset.filter(
-            Q(category__name__iexact=value) | Q(category__parent__name__iexact=value))
+            Q(category__name__in=values) | Q(category__parent__name__in=values))
