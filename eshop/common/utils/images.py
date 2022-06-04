@@ -36,4 +36,5 @@ def crop_and_resize(image, size):
         settings.FILE_FORMAT,
         sys.getsizeof(output),
         None)
+
     return cropped_image

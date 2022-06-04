@@ -27,12 +27,13 @@ class ProductSerializer(serializers.ModelSerializer):
     category = CategoriesBriefSerializer()
     discount = ProductDiscountSerializer()
     gallery = ProductGallerySerializer(many=True)
+    is_available = serializers.BooleanField()
 
     class Meta:
         model = Product
         fields = (
             'pk', 'name', 'SKU', 'category', 'description', 'price', 'characteristics', 'inventory', 'discount',
-            'gallery',)
+            'gallery', 'is_available',)
 
     # flatten nested inventory amount, category name and discount percent
     def to_representation(self, obj):
@@ -46,10 +47,11 @@ class ProductsSerializer(serializers.ModelSerializer):
     category = CategoriesBriefSerializer()
     discount = ProductDiscountSerializer()
     gallery = ProductGallerySerializer(many=True)
+    is_available = serializers.BooleanField()
 
     class Meta:
         model = Product
-        fields = ('pk', 'name', 'category', 'description', 'price', 'discount', 'gallery',)
+        fields = ('pk', 'name', 'category', 'description', 'price', 'discount', 'gallery', 'is_available',)
 
     def to_representation(self, obj):
         representation = super().to_representation(obj)
