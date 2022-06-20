@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from common.serializers.recursrive_field import RecursiveField
+from common.serializers.recursive_field import RecursiveField
 from common.serializers.non_empty import NonEmptySerializer
 from .models import Category
 
