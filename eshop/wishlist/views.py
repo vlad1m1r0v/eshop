@@ -1,4 +1,6 @@
 from django.core.exceptions import ObjectDoesNotExist
+from django.shortcuts import get_object_or_404
+from rest_framework.generics import RetrieveDestroyAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -34,3 +36,12 @@ class WishListView(APIView):
         except ObjectDoesNotExist:
             return Response(data={'detail': 'List or product with given id not found.'},
                             status=status.HTTP_404_NOT_FOUND)
+
+
+class RetrieveDestroyWishListView(RetrieveDestroyAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = WishListItemSerializer
+
+    def get_object(self):
+        wish_list_query = WishList.objects.get(user_profile__user=self.request.user)
+        return get_object_or_404(WishListItem, wish_list=wish_list_query, product_id=self.kwargs.get('product_id'))
