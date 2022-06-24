@@ -59,9 +59,12 @@ INSTALLED_APPS = [
     # add to make user profile signal work
     'users.apps.UsersConfig',
 
+    # add to make wishlist signal work
+    'wishlist.apps.WishlistConfig',
+
     # add apps
     'categories',
-    'products'
+    'products',
 ]
 
 MIDDLEWARE = [

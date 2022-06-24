@@ -1,9 +1,9 @@
-from datetime import datetime
-
 from django.conf import settings
 from django.db import models
 from django.db.models import JSONField
 from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.exceptions import ObjectDoesNotExist
+
 from categories.models import Category
 from common.utils.images import crop_and_resize
 from common.utils.storage import OverwriteStorage
@@ -28,6 +28,15 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     characteristics = JSONField()
 
+    @property
+    def is_available(self):
+        try:
+            inventory = ProductInventory.objects.get(product_id=self.pk)
+            if inventory.amount > 0:
+                return True
+        except ObjectDoesNotExist:
+            return False
+
     def __str__(self):
         return f'{self.name}'
 
@@ -40,7 +49,7 @@ class ProductInventory(models.Model):
         verbose_name_plural = 'Inventories'
 
     def __str__(self):
-        return f'{self.product} {self.amount}'
+        return f'{self.product}'
 
 
 class ProductDiscount(models.Model):
@@ -53,7 +62,7 @@ class ProductDiscount(models.Model):
         verbose_name_plural = 'Discounts'
 
     def __str__(self):
-        return f'for {self.product} {self.percent}%'
+        return f'{self.product}'
 
 
 class ProductGallery(models.Model):
@@ -64,7 +73,7 @@ class ProductGallery(models.Model):
         verbose_name_plural = 'Gallery'
 
     def __str__(self):
-        return f'{self.product} {self.pk}'
+        return f'{self.product}'
 
     def save(self, *args, **kwargs):
         image = self.image
@@ -72,4 +81,3 @@ class ProductGallery(models.Model):
         cropped_image_file = crop_and_resize(image=image, size=size)
         self.image = cropped_image_file
         super().save(*args, **kwargs)
-
