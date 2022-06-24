@@ -9,7 +9,7 @@ class CategoriesSerializer(NonEmptySerializer):
 
     class Meta:
         model = Category
-        fields = ('name', 'description', 'image', 'subcategories')
+        fields = ('pk', 'name', 'description', 'image', 'subcategories')
 
 
 class CategoriesBriefSerializer(serializers.ModelSerializer):
