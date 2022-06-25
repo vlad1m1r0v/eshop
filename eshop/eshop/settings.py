@@ -62,6 +62,9 @@ INSTALLED_APPS = [
     # add to make wishlist signal work
     'wishlist.apps.WishlistConfig',
 
+    # add to make wishlist signal work
+    'carts.apps.CartsConfig',
+
     # add apps
     'categories',
     'products',

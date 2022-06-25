@@ -8,7 +8,7 @@ from users.models import UserProfile
 
 
 class WishList(models.Model):
-    user_profile = models.OneToOneField(UserProfile, on_delete=models.CASCADE, related_name='profile')
+    user_profile = models.OneToOneField(UserProfile, on_delete=models.CASCADE, related_name='wish_list_owner')
 
     def __str__(self):
         return f'{self.user_profile}'
