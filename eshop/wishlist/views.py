@@ -25,7 +25,7 @@ class WishListView(APIView):
         except ObjectDoesNotExist:
             return Response(data={'detail': 'Not found.'}, status=status.HTTP_404_NOT_FOUND)
 
-    def put(self, request):
+    def patch(self, request):
         try:
             wish_list_query = WishList.objects.get(user_profile__user=self.request.user)
             product_query = Product.objects.get(pk=request.data['product_id'])
