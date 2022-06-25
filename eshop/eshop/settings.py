@@ -65,6 +65,9 @@ INSTALLED_APPS = [
     # add to make wishlist signal work
     'carts.apps.CartsConfig',
 
+    # add trigger support
+    'pgtrigger',
+
     # add apps
     'categories',
     'products',

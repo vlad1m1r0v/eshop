@@ -34,6 +34,7 @@ class Product(models.Model):
             inventory = ProductInventory.objects.get(product_id=self.pk)
             if inventory.amount > 0:
                 return True
+            return False
         except ObjectDoesNotExist:
             return False
 
@@ -43,7 +44,7 @@ class Product(models.Model):
 
 class ProductInventory(models.Model):
     product = models.OneToOneField(Product, on_delete=models.CASCADE, related_name='inventory')
-    amount = models.IntegerField()
+    amount = models.PositiveIntegerField(default=0)
 
     class Meta:
         verbose_name_plural = 'Inventories'
