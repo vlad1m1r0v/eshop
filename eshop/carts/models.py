@@ -14,20 +14,12 @@ class Cart(models.Model):
 @pgtrigger.register(
     # sync with product inventory
     pgtrigger.Trigger(
-        name='sync_with_inventory_after_insert_and_update',
+        name='sync_with_inventory',
         when=pgtrigger.After,
-        operation=pgtrigger.Insert | pgtrigger.Update,
+        operation=pgtrigger.Insert | pgtrigger.Update | pgtrigger.Delete,
         func='UPDATE products_productinventory '
              'SET amount = amount - COALESCE(NEW.amount, 0) + COALESCE(OLD.amount, 0) '
-             'WHERE products_productinventory.product_id = NEW.product_id; RETURN NEW;',
-    ),
-    pgtrigger.Trigger(
-        name='sync_with_inventory_after_delete',
-        when=pgtrigger.After,
-        operation=pgtrigger.Delete,
-        func='UPDATE products_productinventory '
-             'SET amount = amount + OLD.amount '
-             'WHERE products_productinventory.product_id = OLD.product_id; RETURN NEW;',
+             'WHERE products_productinventory.product_id = COALESCE(NEW.amount, OLD.amount); RETURN NEW;',
     )
 )
 class CartItem(models.Model):
