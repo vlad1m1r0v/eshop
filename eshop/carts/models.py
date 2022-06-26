@@ -19,11 +19,11 @@ class Cart(models.Model):
         operation=pgtrigger.Insert | pgtrigger.Update | pgtrigger.Delete,
         func='UPDATE products_productinventory '
              'SET amount = amount - COALESCE(NEW.amount, 0) + COALESCE(OLD.amount, 0) '
-             'WHERE products_productinventory.product_id = COALESCE(NEW.amount, OLD.amount); RETURN NEW;',
+             'WHERE products_productinventory.product_id = COALESCE(NEW.product_id, OLD.product_id); RETURN NEW;',
     )
 )
 class CartItem(models.Model):
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='items')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     amount = models.PositiveIntegerField(default=1)
 
