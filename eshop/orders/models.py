@@ -1,3 +1,4 @@
+import pgtrigger
 from django.db import models
 from users.models import UserProfile
 from products.models import Product
@@ -28,7 +29,7 @@ class Order(models.Model):
         default=ACCEPTED
     )
 
-    created_at = models.DateTimeField(default=datetime.now())
+    created_at = models.DateTimeField(auto_now_add=True)
 
     @property
     def items_amount(self):
@@ -38,6 +39,17 @@ class Order(models.Model):
         return f'{self.user_profile}'
 
 
+@pgtrigger.register(
+    # sync with product inventory
+    pgtrigger.Trigger(
+        name='sync_with_inventory',
+        when=pgtrigger.After,
+        operation=pgtrigger.Insert | pgtrigger.Update | pgtrigger.Delete,
+        func='UPDATE products_productinventory '
+             'SET amount = amount - COALESCE(NEW.amount, 0) + COALESCE(OLD.amount, 0) '
+             'WHERE products_productinventory.product_id = COALESCE(NEW.product_id, OLD.product_id); RETURN NEW;',
+    )
+)
 class OrderItem(models.Model):
     order = models.ForeignKey(
         Order,

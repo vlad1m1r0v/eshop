@@ -15,7 +15,7 @@ class Cart(models.Model):
     # sync with product inventory
     pgtrigger.Trigger(
         name='sync_with_inventory',
-        when=pgtrigger.After,
+        when=pgtrigger.Before,
         operation=pgtrigger.Insert | pgtrigger.Update | pgtrigger.Delete,
         func='UPDATE products_productinventory '
              'SET amount = amount - COALESCE(NEW.amount, 0) + COALESCE(OLD.amount, 0) '
