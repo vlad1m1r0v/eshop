@@ -42,7 +42,7 @@ class Order(models.Model):
 @pgtrigger.register(
     # sync with product inventory
     pgtrigger.Trigger(
-        name='sync_with_inventory',
+        name='sync_order_with_inventory',
         when=pgtrigger.After,
         operation=pgtrigger.Insert | pgtrigger.Update | pgtrigger.Delete,
         func='UPDATE products_productinventory '

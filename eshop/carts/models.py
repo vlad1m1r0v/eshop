@@ -14,7 +14,7 @@ class Cart(models.Model):
 @pgtrigger.register(
     # sync with product inventory
     pgtrigger.Trigger(
-        name='sync_with_inventory',
+        name='sync_cart_with_inventory',
         when=pgtrigger.Before,
         operation=pgtrigger.Insert | pgtrigger.Update | pgtrigger.Delete,
         func='UPDATE products_productinventory '
