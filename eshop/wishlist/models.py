@@ -16,7 +16,7 @@ class WishList(models.Model):
 
 class WishListItem(models.Model):
     wish_list = models.ForeignKey(WishList, on_delete=models.CASCADE, related_name='items')
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.OneToOneField(Product, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

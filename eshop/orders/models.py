@@ -56,7 +56,7 @@ class Order(models.Model):
     # sync with product inventory
     pgtrigger.Trigger(
         name='sync_order_with_inventory',
-        when=pgtrigger.After,
+        when=pgtrigger.Before,
         operation=pgtrigger.Insert | pgtrigger.Update | pgtrigger.Delete,
         func='UPDATE products_productinventory '
              'SET amount = amount - COALESCE(NEW.amount, 0) + COALESCE(OLD.amount, 0) '
@@ -70,7 +70,7 @@ class OrderItem(models.Model):
         related_name='items'
     )
 
-    product = models.ForeignKey(
+    product = models.OneToOneField(
         Product,
         on_delete=models.CASCADE
     )
