@@ -1,4 +1,5 @@
-from rest_framework.generics import ListCreateAPIView
+from django.shortcuts import get_object_or_404
+from rest_framework.generics import ListCreateAPIView, RetrieveDestroyAPIView
 from rest_framework.permissions import IsAuthenticated
 from django.http import HttpResponse
 from rest_framework import status
@@ -31,3 +32,12 @@ class ListCreateOrderView(ListCreateAPIView):
             order_item.save()
 
 
+class RetrieveDestroyOrderView(RetrieveDestroyAPIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = OrderSerializer
+
+    def get_object(self):
+        return get_object_or_404(
+            Order,
+            id=self.kwargs.get('order_id'),
+            user_profile__user=self.request.user)

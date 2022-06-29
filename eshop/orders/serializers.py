@@ -6,7 +6,7 @@ from .models import Order, OrderItem
 class OrderBriefSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ('pk', 'status', 'created_at', 'items_amount',)
+        fields = ('pk', 'status', 'created_at', 'items_amount', 'total_price',)
 
 
 class OrderItemSerializer(serializers.ModelSerializer):
@@ -22,4 +22,4 @@ class OrderSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Order
-        fields = ('pk', 'status', 'created_at', 'items',)
+        fields = ('pk', 'status', 'created_at', 'items', 'items_amount', 'total_price',)
