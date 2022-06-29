@@ -1,8 +1,8 @@
 import pgtrigger
+from django.core.exceptions import ObjectDoesNotExist
 from django.db import models
 from users.models import UserProfile
-from products.models import Product
-from datetime import datetime
+from products.models import Product, ProductDiscount
 
 
 class Order(models.Model):
@@ -34,6 +34,19 @@ class Order(models.Model):
     @property
     def items_amount(self):
         return OrderItem.objects.filter(order_id=self.pk).count()
+
+    @property
+    def total_price(self):
+        price = 0
+        order_items = OrderItem.objects.filter(order_id=self.pk)
+        for item in order_items:
+            try:
+                item_discount = ProductDiscount.objects.get(product=item.product, active=True).percent
+                price += item.amount * item.product.price * (1 - item_discount / 100)
+            except ObjectDoesNotExist:
+                price += item.amount * item.product.price
+
+        return price
 
     def __str__(self):
         return f'{self.user_profile}'
