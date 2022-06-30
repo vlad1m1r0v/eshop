@@ -12,21 +12,21 @@ class Order(models.Model):
         related_name='orders',
     )
 
-    ACCEPTED = 'accepted'
-    COMPLETED = 'completed'
-    REJECTED = 'rejected'
+    NEW = 'new'
+    PAYED = 'payed'
+    SHIPPED = 'shipped'
     CANCELLED = 'cancelled'
 
     status_choices = [
-        (ACCEPTED, 'accepted'),
-        (COMPLETED, 'completed'),
-        (REJECTED, 'rejected'),
+        (NEW, 'new'),
+        (PAYED, 'payed'),
+        (SHIPPED, 'shipped'),
         (CANCELLED, 'cancelled')
     ]
     status = models.CharField(
         max_length=20,
         choices=status_choices,
-        default=ACCEPTED
+        default=NEW
     )
 
     created_at = models.DateTimeField(auto_now_add=True)

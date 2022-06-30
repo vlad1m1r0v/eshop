@@ -19,13 +19,13 @@ class ListCreateOrderView(ListCreateAPIView):
     def perform_create(self, serializer):
         user_cart = Cart.objects.get(user_profile__user=self.request.user)
         cart_items = CartItem.objects.filter(cart=user_cart)
-        user_order_exists = Order.objects.filter(user_profile__user=self.request.user, status='accepted').exists()
+        user_order_exists = Order.objects.filter(user_profile__user=self.request.user, status='new').exists()
         if not user_order_exists:
             user_profile = UserProfile.objects.get(user=self.request.user)
             user_order = Order(user_profile=user_profile)
             user_order.save()
         last_accepted_order = Order.objects.filter(user_profile__user=self.request.user,
-                                                   status='accepted').order_by('-created_at').first()
+                                                   status='new').order_by('-created_at').first()
         for item in cart_items:
             order_item = OrderItem(order=last_accepted_order, product=item.product, amount=item.amount)
             item.delete()

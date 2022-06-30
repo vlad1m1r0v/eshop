@@ -71,7 +71,8 @@ INSTALLED_APPS = [
     # add apps
     'categories',
     'products',
-    'orders'
+    'orders',
+    'payment',
 ]
 
 MIDDLEWARE = [
